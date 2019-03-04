@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 class Book extends Component {
   state = {
     thumbnailHeight: 0,
-    thumbnailWidth: 0
-  }
+    thumbnailWidth: 0,
+  };
 
   updateThumbnail = (url) => {
     const img = new Image();
@@ -13,45 +13,45 @@ class Book extends Component {
     img.addEventListener('load', () => {
       // Calculate thumbnail size with proportions so it doesn't
       // exceed 200px when it's bigger
-      const thumbnailHeight = Math.min(img.height, 200)
-      const thumbnailWidth = img.width * thumbnailHeight / img.height
+      const thumbnailHeight = Math.min(img.height, 200);
+      const thumbnailWidth = img.width * thumbnailHeight / img.height;
 
       this.setState(() => ({
         thumbnailHeight,
-        thumbnailWidth
-      }))
+        thumbnailWidth,
+      }));
     });
     img.src = url;
   }
 
   getThumbnailStyles = () => {
-    const { book } = this.props
+    const {book} = this.props;
 
     if (book.imageLinks) {
       return {
         backgroundImage: book.imageLinks ? `url("${book.imageLinks.thumbnail}")` : null,
         height: this.state.thumbnailHeight,
-        width: this.state.thumbnailWidth
-      }
+        width: this.state.thumbnailWidth,
+      };
     }
   }
 
-  handleShelfChange = ({ target }) => {
-    const { book, onShelfChange } = this.props
+  handleShelfChange = ({target}) => {
+    const {book, onShelfChange} = this.props;
 
     if (onShelfChange) {
-      onShelfChange(book, target.value)
+      onShelfChange(book, target.value);
     }
   }
 
   componentDidMount() {
     if (this.props.book.imageLinks) {
-      this.updateThumbnail(this.props.book.imageLinks.thumbnail)
+      this.updateThumbnail(this.props.book.imageLinks.thumbnail);
     }
   }
 
   render() {
-    const { book } = this.props
+    const {book} = this.props;
 
     return (
       <li>
@@ -72,13 +72,13 @@ class Book extends Component {
           <div className="book-authors">{book.authors ? book.authors.join(', ') : 'Unknown author'}</div>
         </div>
       </li>
-    )
+    );
   }
 }
 
 Book.propTypes = {
   book: PropTypes.object.isRequired,
-  onShelfChange: PropTypes.func
-}
+  onShelfChange: PropTypes.func,
+};
 
-export default Book
+export default Book;

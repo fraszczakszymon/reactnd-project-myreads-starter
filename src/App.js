@@ -1,48 +1,48 @@
-import React from 'react'
-import { Router, Route } from 'react-router-dom';
+import React, {Component} from 'react';
+import {Router, Route} from 'react-router-dom';
 
 import * as BooksAPI from './api/BooksAPI';
 import BookshelfsWall from './components/BookshelfsWall';
 import SearchBook from './components/SearchBook';
 import history from './browser/history';
 
-import './App.css'
+import './App.css';
 
-class BooksApp extends React.Component {
+class BooksApp extends Component {
   state = {
-    books: []
-  }
+    books: [],
+  };
 
   onShelfChange = (changedBook, newShelf) => {
-    let found = false
+    let found = false;
 
     const books = this.state.books.map((book) => {
       if (changedBook.id === book.id) {
-        book.shelf = newShelf
-        found = true
+        book.shelf = newShelf;
+        found = true;
       }
 
-      return book
+      return book;
     })
 
     if (!found) {
-      books.push(changedBook)
+      books.push(changedBook);
     }
 
     this.setState(() => ({
-      books
-    }))
+      books,
+    }));
 
-    BooksAPI.update(changedBook, newShelf)
+    BooksAPI.update(changedBook, newShelf);
   }
 
   componentDidMount() {
     BooksAPI.getAll()
       .then((books) => {
         this.setState(() => ({
-          books
-        }))
-      })
+          books,
+        }));
+      });
   }
 
   render() {
@@ -64,8 +64,8 @@ class BooksApp extends React.Component {
           />
         </div>
       </Router>
-    )
+    );
   }
 }
 
-export default BooksApp
+export default BooksApp;

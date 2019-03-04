@@ -1,94 +1,94 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import { DebounceInput } from 'react-debounce-input';
-import { Link } from 'react-router-dom';
+import React, {Component} from 'react';
+import {DebounceInput} from 'react-debounce-input';
+import {Link} from 'react-router-dom';
 
 import * as BooksAPI from '../api/BooksAPI';
 import Book from './Book';
 import history from '../browser/history';
 
 class SearchBook extends Component {
-  unlisten = null
+  unlisten = null;
 
   state = {
     books: [],
     message: '',
-    queryValue: ''
-  }
+    queryValue: '',
+  };
 
   getBooksWithSyncedStatuses = (foundBooks) => {
     return foundBooks.map((book) => {
       this.props.books.forEach((savedBook) => {
         if (book.id === savedBook.id) {
-          book.shelf = savedBook.shelf
+          book.shelf = savedBook.shelf;
         }
-      })
+      });
 
-      return book
-    })
+      return book;
+    });
   }
 
   search = (queryValue) => {
-    const isQueryLongEnough = queryValue.length > 2
+    const isQueryLongEnough = queryValue.length > 2;
 
     this.setState(() => ({
       books: [],
       message: isQueryLongEnough ? 'Searching...' : '',
-      queryValue
-    }))
+      queryValue,
+    }));
 
     if (isQueryLongEnough) {
       BooksAPI.search(queryValue)
         .then((books) => {
           this.setState({
             books: !books.error ? this.getBooksWithSyncedStatuses(books) : [],
-            message: books.error ? 'Could not find any book' : ''
-          })
-        })
+            message: books.error ? 'Could not find any book' : '',
+          });
+        });
     }
   }
 
   handleQueryUrlChange = (location) => {
-    const params = new URLSearchParams(location.search)
+    const params = new URLSearchParams(location.search);
 
-    this.search(params.get('query') || '')
+    this.search(params.get('query') || '');
   }
 
-  handleSearchInput = ({ target }) => {
-    const { value } = target
-    const newQueryString = value ? `?query=${value}` : ''
+  handleSearchInput = ({target}) => {
+    const {value} = target;
+    const newQueryString = value ? `?query=${value}` : '';
 
-    history.push(`/search${newQueryString}`)
+    history.push(`/search${newQueryString}`);
   }
 
   handleShelfChange = (changedBook, newShelf) => {
-    const { onShelfChange } = this.props
+    const {onShelfChange} = this.props;
 
     this.setState((currentState) => ({
       books: currentState.books.map((book) => {
         if (changedBook.id === book.id) {
-          book.shelf = newShelf
+          book.shelf = newShelf;
         }
 
-        return book
-      })
-    }))
+        return book;
+      }),
+    }));
 
     if (onShelfChange) {
-      onShelfChange(changedBook, newShelf)
+      onShelfChange(changedBook, newShelf);
     }
   }
 
   componentDidMount = () => {
-    this.handleQueryUrlChange(window.location)
+    this.handleQueryUrlChange(window.location);
     this.unlisten = history.listen((location) => {
-      this.handleQueryUrlChange(location)
-    })
+      this.handleQueryUrlChange(location);
+    });
   }
 
   componentWillUnmount = () => {
     if (this.unlisten) {
-      this.unlisten()
+      this.unlisten();
     }
   }
 
@@ -122,13 +122,13 @@ class SearchBook extends Component {
           )}
         </div>
       </div>
-    )
+    );
   }
 }
 
 SearchBook.propTypes = {
   books: PropTypes.array,
   onShelfChange: PropTypes.func
-}
+};
 
-export default SearchBook
+export default SearchBook;

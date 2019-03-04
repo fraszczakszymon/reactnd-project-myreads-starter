@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 
 import Bookshelf from './Bookshelf';
 
@@ -8,20 +8,20 @@ class BookshelfsWall extends Component {
   static shelfs = [
     {
       key: 'currentlyReading',
-      title: 'Currently Reading'
+      title: 'Currently Reading',
     },
     {
       key: 'wantToRead',
-      title: 'Want to Read'
+      title: 'Want to Read',
     },
     {
       key: 'read',
-      title: 'Read'
-    }
+      title: 'Read',
+    },
   ];
 
   render() {
-    const { books, onShelfChange } = this.props
+    const {books, onShelfChange} = this.props;
 
     return (
       <div className="list-books">
@@ -44,13 +44,13 @@ class BookshelfsWall extends Component {
           <Link to="/search"><button>Add a book</button></Link>
         </div>
       </div>
-    )
+    );
   }
 }
 
 BookshelfsWall.propTypes = {
   books: PropTypes.array,
-  onShelfChange: PropTypes.func
-}
+  onShelfChange: PropTypes.func,
+};
 
-export default BookshelfsWall
+export default BookshelfsWall;
