@@ -54,6 +54,7 @@ body, .app {
 }
 
 .open-search button {
+  cursor: pointer;
   display: block;
   width: 50px;
   height: 50px;
@@ -99,6 +100,7 @@ body, .app {
 }
 
 .close-search {
+  cursor: pointer;
   display: block;
   top: 20px;
   left: 15px;
@@ -120,6 +122,12 @@ button:active {
 
 .search-books-results {
   padding: 80px 10px 20px;
+}
+
+.search-message {
+  color: #777;
+  margin: 4em auto;
+  text-align: center;
 }
 
 /* books grid */
@@ -188,7 +196,11 @@ button:active {
 
 .book-cover {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  background: #eee;
+  background: #eee no-repeat center bottom;
+  background-size: 100%;
+  background-image: url('./images/no-cover.jpg');
+  height: 180px;
+  width: 135px;
 }
 
 .book-cover-title {
