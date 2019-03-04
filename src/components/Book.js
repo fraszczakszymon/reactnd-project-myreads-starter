@@ -32,14 +32,16 @@ class Book extends Component {
   }
 
   componentDidMount() {
-    this.updateThumbnail(this.props.book.imageLinks.thumbnail)
+    if (this.props.book.imageLinks) {
+      this.updateThumbnail(this.props.book.imageLinks.thumbnail)
+    }
   }
 
   render() {
     const { book } = this.props
 
     const thumbnailStyles = {
-      backgroundImage: `url("${book.imageLinks.thumbnail}")`,
+      backgroundImage: book.imageLinks ? `url("${book.imageLinks.thumbnail}")` : null,
       height: this.state.thumbnailHeight,
       width: this.state.thumbnailWidth
     }
@@ -50,7 +52,7 @@ class Book extends Component {
           <div className="book-top">
           <div className="book-cover" style={thumbnailStyles}></div>
           <div className="book-shelf-changer">
-            <select value={book.shelf} onChange={this.handleShelfChange}>
+            <select value={book.shelf || 'none'} onChange={this.handleShelfChange}>
               <option value="move" disabled>Move to...</option>
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>
