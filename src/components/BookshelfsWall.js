@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -45,6 +46,11 @@ class BookshelfsWall extends Component {
       </div>
     )
   }
+}
+
+BookshelfsWall.propTypes = {
+  books: PropTypes.array,
+  onShelfChange: PropTypes.func
 }
 
 export default BookshelfsWall

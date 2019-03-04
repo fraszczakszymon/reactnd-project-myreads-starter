@@ -198,6 +198,9 @@ button:active {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   background: #eee no-repeat center bottom;
   background-size: 100%;
+  background-image: url('./images/no-cover.jpg');
+  height: 180px;
+  width: 135px;
 }
 
 .book-cover-title {

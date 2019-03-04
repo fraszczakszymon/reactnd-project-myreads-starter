@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 class Book extends Component {
@@ -23,6 +24,18 @@ class Book extends Component {
     img.src = url;
   }
 
+  getThumbnailStyles = () => {
+    const { book } = this.props
+
+    if (book.imageLinks) {
+      return {
+        backgroundImage: book.imageLinks ? `url("${book.imageLinks.thumbnail}")` : null,
+        height: this.state.thumbnailHeight,
+        width: this.state.thumbnailWidth
+      }
+    }
+  }
+
   handleShelfChange = ({ target }) => {
     const { book, onShelfChange } = this.props
 
@@ -40,17 +53,11 @@ class Book extends Component {
   render() {
     const { book } = this.props
 
-    const thumbnailStyles = {
-      backgroundImage: book.imageLinks ? `url("${book.imageLinks.thumbnail}")` : null,
-      height: this.state.thumbnailHeight,
-      width: this.state.thumbnailWidth
-    }
-
     return (
       <li>
         <div className="book">
           <div className="book-top">
-          <div className="book-cover" style={thumbnailStyles}></div>
+          <div className="book-cover" style={this.getThumbnailStyles()}></div>
           <div className="book-shelf-changer">
             <select value={book.shelf || 'none'} onChange={this.handleShelfChange}>
               <option value="move" disabled>Move to...</option>
@@ -67,6 +74,11 @@ class Book extends Component {
       </li>
     )
   }
+}
+
+Book.propTypes = {
+  book: PropTypes.object.isRequired,
+  onShelfChange: PropTypes.func
 }
 
 export default Book

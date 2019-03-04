@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { DebounceInput } from 'react-debounce-input';
 import { Link } from 'react-router-dom';
@@ -27,16 +28,17 @@ class SearchBook extends Component {
     })
   }
 
-  search = (value) => {
-    const isQueryLongEnough = value.length > 2
+  search = (queryValue) => {
+    const isQueryLongEnough = queryValue.length > 2
 
     this.setState(() => ({
       books: [],
-      message: isQueryLongEnough ? 'Searching...' : ''
+      message: isQueryLongEnough ? 'Searching...' : '',
+      queryValue
     }))
 
     if (isQueryLongEnough) {
-      BooksAPI.search(value)
+      BooksAPI.search(queryValue)
         .then((books) => {
           this.setState({
             books: !books.error ? this.getBooksWithSyncedStatuses(books) : [],
@@ -48,19 +50,8 @@ class SearchBook extends Component {
 
   handleQueryUrlChange = (location) => {
     const params = new URLSearchParams(location.search)
-    const queryValue = params.get('query') || '';
 
-    this.setState(() => ({
-      queryValue
-    }))
-
-    if (queryValue) {
-      this.search(queryValue)
-    } else {
-      this.setState({
-        books: []
-      })
-    }
+    this.search(params.get('query') || '')
   }
 
   handleSearchInput = ({ target }) => {
@@ -112,7 +103,7 @@ class SearchBook extends Component {
             <DebounceInput
               autoFocus
               placeholder="Search by title or author"
-              debounceTimeout={500}
+              debounceTimeout={300}
               onChange={this.handleSearchInput}
               value={this.state.queryValue}
             />
@@ -133,6 +124,11 @@ class SearchBook extends Component {
       </div>
     )
   }
+}
+
+SearchBook.propTypes = {
+  books: PropTypes.array,
+  onShelfChange: PropTypes.func
 }
 
 export default SearchBook
